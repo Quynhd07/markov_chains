@@ -11,8 +11,10 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
-
-    return "Contents of your file as one long string"
+    contents = open(file_path).read()
+    contents = contents.replace('\n', ' ')
+    #print(contents)
+    return contents
 
 
 def make_chains(text_string):
@@ -21,7 +23,7 @@ def make_chains(text_string):
     A chain will be a key that consists of a tuple of (word1, word2)
     and the value would be a list of the word(s) that follow those two
     words in the input text.
-
+    
     For example:
 
         >>> chains = make_chains("hi there mary hi there juanita")
@@ -39,8 +41,19 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
+    words_list = open_and_read_file(text_string).split()
 
     chains = {}
+
+    for i in range(0, len(words_list) - 2):
+        current_two_gram = (words_list[i], words_list[i + 1])
+        value = [words_list[i + 2]]
+
+        if current_two_gram in chains.keys():
+            chains[current_two_gram].extend(value)
+
+        else:
+            chains[current_two_gram] = value
 
     # your code goes here
 
@@ -49,6 +62,9 @@ def make_chains(text_string):
 
 def make_text(chains):
     """Return text from chains."""
+ 
+    key = choice(list(chains.keys())
+    #print(key)
 
     words = []
 
@@ -57,15 +73,15 @@ def make_text(chains):
     return " ".join(words)
 
 
-input_path = "green-eggs.txt"
+# input_path = "green-eggs.txt"
 
-# Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+# # Open the file and turn it into one long string
+# input_text = open_and_read_file(input_path)
 
-# Get a Markov chain
-chains = make_chains(input_text)
+# # Get a Markov chain
+# chains = make_chains(input_text)
 
-# Produce random text
-random_text = make_text(chains)
+# # Produce random text
+# random_text = make_text(chains)
 
-print(random_text)
+# print(random_text)
