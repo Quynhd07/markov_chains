@@ -63,7 +63,8 @@ def make_text(chains):
     """Return text from chains."""
 
     # Get all dictionary keys, converts to a list, choose a tuple pair
-    key = choice(list(chains.keys()))
+    #key = choice(list(chains.keys()))
+    key = ('Would', 'you')
     # converts key to list
     words = [key[0], key[1]]
     # choose from possible list of values
@@ -73,13 +74,41 @@ def make_text(chains):
     while value:
         key = (key[1], value)
         words.append(value)
-        #alue = choice(chains[key])
-        value = chains.get(choice(chains[key]), None)
-        #rint(value)
+        # value = choice(chains[key])
+        value = choice(chains.get(key, [None]))
+
+    string = ''
+
+    for i in range(0, len(words), 7):
+        a = words[i: i + 7]
+        a = " ".join(a) + '\n'
+        string += a
+
+    print(string)
+    return string
+
+
+    # new_string = ''
+
+    # strt = 0
+    # end = 7
+
+    # while end != len(words):
+    #     new_string = words[strt:end] + '\n'
+    #     print(new_string)
+    #     strt += 7
+    #     end += 7
+
+    # print(new_string)
 
 
 
-    return ' '.join(words)
+    # one_string = ' '.join(words)
+    # print(one_string)
+    # print(len(one_string))
+
+
+    # return ' '.join(words)
 
 
 # input_path = "green-eggs.txt"
