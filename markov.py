@@ -13,7 +13,7 @@ def open_and_read_file(file_path):
     # your code goes here
     contents = open(file_path).read()
     contents = contents.replace('\n', ' ')
-    #print(contents)
+    # print(contents)
     return contents
 
 
@@ -23,7 +23,6 @@ def make_chains(text_string):
     A chain will be a key that consists of a tuple of (word1, word2)
     and the value would be a list of the word(s) that follow those two
     words in the input text.
-    
     For example:
 
         >>> chains = make_chains("hi there mary hi there juanita")
@@ -37,7 +36,7 @@ def make_chains(text_string):
 
         >>> chains[('hi', 'there')]
         ['mary', 'juanita']
-        
+
         >>> chains[('there','juanita')]
         [None]
     """
@@ -62,15 +61,25 @@ def make_chains(text_string):
 
 def make_text(chains):
     """Return text from chains."""
- 
-    key = choice(list(chains.keys())
-    #print(key)
 
-    words = []
+    # Get all dictionary keys, converts to a list, choose a tuple pair
+    key = choice(list(chains.keys()))
+    # converts key to list
+    words = [key[0], key[1]]
+    # choose from possible list of values
+    value = choice(chains[key])
 
-    # your code goes here
+    # while word exists
+    while value:
+        key = (key[1], value)
+        words.append(value)
+        #alue = choice(chains[key])
+        value = chains.get(choice(chains[key]), None)
+        #rint(value)
 
-    return " ".join(words)
+
+
+    return ' '.join(words)
 
 
 # input_path = "green-eggs.txt"
