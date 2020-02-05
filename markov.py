@@ -2,6 +2,9 @@
 
 from random import choice
 
+# import sys
+
+# n = sys.argv[1]
 
 def open_and_read_file(file_path):
     """Take file path as string; return text as string.
@@ -12,12 +15,12 @@ def open_and_read_file(file_path):
 
     # your code goes here
     contents = open(file_path).read()
-    contents = contents.replace('\n', ' ')
+    # contents = contents.replace('\n', ' ')
     # print(contents)
     return contents
 
 
-def make_chains(text_string):
+def make_chains(text_string, n):
     """Take input text as string; return dictionary of Markov chains.
 
     A chain will be a key that consists of a tuple of (word1, word2)
@@ -44,40 +47,56 @@ def make_chains(text_string):
 
     chains = {}
 
-    for i in range(0, len(words_list) - 2):
-        current_two_gram = (words_list[i], words_list[i + 1])
-        value = [words_list[i + 2]]
+    for i in range(0, len(words_list) - n):
+        # n_gram = (words_list[i], words_list[i + 1])
+        list_gram = []
+        for inner_i in range(n):
+            list_gram.append(words_list[i])
 
-        if current_two_gram in chains.keys():
-            chains[current_two_gram].extend(value)
+        n_gram = (list_gram)
+
+
+        value = [words_list[i + n]]
+
+        if n_gram in chains.keys():
+            chains[n_gram].extend(value)
 
         else:
-            chains[current_two_gram] = value
+            chains[n_gram] = value
+
+        # TODO: use .get
+        # chains += chains.get(chains[current_two_gram], value) +
 
     # your code goes here
 
     return chains
 
 
-def make_text(chains):
+def make_text(chains, n):
     """Return text from chains."""
 
     # Get all dictionary keys, converts to a list, choose a tuple pair
-    #key = choice(list(chains.keys()))
-    key = ('Would', 'you')
+    # TODO: choice(chains)
+    key = choice(list(chains.keys()))
     # converts key to list
-    words = [key[0], key[1]]
+    words = []
+    for i in range(n):
+        words.append(key[i])
+
+    # words = [key[0], key[1]]
     # choose from possible list of values
     value = choice(chains[key])
 
     # while word exists
-    while value != 'Would':
-        key = (key[1], value)
+    while value:
+        key = (key[len(words)-1], value)
         words.append(value)
         # value = choice(chains[key])
         value = choice(chains.get(key, [None]))
 
-    return ' '.join(words)
+    return_str = ' '.join(words)
+    print(return_str)
+    # return ' '.join(words)
 
 
     # new_string = ''
