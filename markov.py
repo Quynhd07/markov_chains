@@ -71,21 +71,13 @@ def make_text(chains):
     value = choice(chains[key])
 
     # while word exists
-    while value:
+    while value != 'Would':
         key = (key[1], value)
         words.append(value)
         # value = choice(chains[key])
         value = choice(chains.get(key, [None]))
 
-    string = ''
-
-    for i in range(0, len(words), 7):
-        a = words[i: i + 7]
-        a = " ".join(a) + '\n'
-        string += a
-
-    print(string)
-    return string
+    return ' '.join(words)
 
 
     # new_string = ''
