@@ -2,9 +2,8 @@
 
 from random import choice
 
-# import sys
+import sys
 
-# n = sys.argv[1]
 
 def open_and_read_file(file_path):
     """Take file path as string; return text as string.
@@ -14,6 +13,7 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
+    # contents = open(sys.argv[1]).read()
     contents = open(file_path).read()
     # contents = contents.replace('\n', ' ')
     # print(contents)
@@ -51,10 +51,10 @@ def make_chains(text_string, n):
         # n_gram = (words_list[i], words_list[i + 1])
         list_gram = []
         for inner_i in range(n):
-            list_gram.append(words_list[i])
+            list_gram.append(words_list[i + inner_i])
 
-        n_gram = (list_gram)
-
+        # convert list of list_gram to tuple
+        n_gram = tuple(list_gram)
 
         value = [words_list[i + n]]
 
@@ -64,7 +64,7 @@ def make_chains(text_string, n):
         else:
             chains[n_gram] = value
 
-        # TODO: use .get
+            # TODO: use .get
         # chains += chains.get(chains[current_two_gram], value) +
 
     # your code goes here
@@ -72,27 +72,36 @@ def make_chains(text_string, n):
     return chains
 
 
-def make_text(chains, n):
+def make_text(text_string, n):
     """Return text from chains."""
 
     # Get all dictionary keys, converts to a list, choose a tuple pair
-    # TODO: choice(chains)
-    key = choice(list(chains.keys()))
+    # TODO: choice(chains) *does not work
+    key = choice(list(make_chains(text_string, n).keys()))
     # converts key to list
-    words = []
-    for i in range(n):
-        words.append(key[i])
+    words = list(key)
+    print(words)
+    # for i in range(n):
+    #     words.append(key[i])
 
     # words = [key[0], key[1]]
     # choose from possible list of values
-    value = choice(chains[key])
+    value = choice(make_chains(text_string, n)[key])
+    print(value)
 
     # while word exists
     while value:
-        key = (key[len(words)-1], value)
         words.append(value)
+
+        list_key = []
+        for i in range(n-1):
+            list_key.append(words_list[i + inner_i])
+
+        key = (set, value)
+
+
         # value = choice(chains[key])
-        value = choice(chains.get(key, [None]))
+        value = choice(make_chains(text_string, n).get(key, [None]))
 
     return_str = ' '.join(words)
     print(return_str)
